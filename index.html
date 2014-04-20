@@ -128,6 +128,7 @@ api.addEventListener('add', function (e) {
 
   var bus = parseBus(e)
   console.log('add', bus)
+  if (ebus.route === 'U') { return; }
   
   bus.marker = L.rotatedMarker([bus.lat, bus.lon],
   {
@@ -155,6 +156,7 @@ api.addEventListener('add', function (e) {
 
 api.addEventListener('change', function (e) {
   var ebus = parseBus(e)
+  if (ebus.route === 'U') { return; }
 
   console.log('change', ebus)
   var bus = buses[ebus.id]
