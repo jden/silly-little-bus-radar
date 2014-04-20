@@ -59,8 +59,20 @@ L.rotatedMarker = function(pos, options) {
     -webkit-animation-name: sweep;
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: linear;
+    animation-duration: 6s;
+    animation-name: sweep;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
   }
   @-webkit-keyframes sweep {
+    from {
+      top: -120px;
+    }
+    to {
+      top: 100%;
+    }
+  }
+    @keyframes sweep {
     from {
       top: -120px;
     }
@@ -124,16 +136,33 @@ api.addEventListener('add', function (e) {
       iconSize: [36,36]
     }),
     angle: headings[bus.heading]
-  }).addTo(map)
+  })
+
+  bus.marker.bindPopup('Route ' + bus.route + ' ' + bus.routeDirection + '<br/>to ' + bus.stop)
+
+  bus.marker.addTo(map)
+
+  bus.marker.on('mouseover', function (e) {
+    bus.marker.openPopup()
+  })
+
+  bus.marker.on('mouseout', function (e) {
+    bus.marker.closePopup()
+  })
 
   buses[bus.id] = bus
 })
 
 api.addEventListener('change', function (e) {
-  var bus = parseBus(e)
-  console.log('change', bus)
-  buses[bus.id].marker.options.angle = headings[bus.heading]
-  buses[bus.id].marker.setLatLng([bus.lat,bus.lon])
+  var ebus = parseBus(e)
+
+  console.log('change', ebus)
+  var bus = buses[ebus.id]
+
+  bus.marker.options.angle = headings[bus.heading]
+  bus.marker.setLatLng([ebus.lat,ebus.lon])
+
+  bus.marker.bindPopup('Route ' + bus.route + ' ' + ebus.routeDirection + '<br/>to ' + ebus.stop)
 })
 
 function parseBus(e) {
