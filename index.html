@@ -168,6 +168,15 @@ api.addEventListener('change', function (e) {
 function parseBus(e) {
   return JSON.parse(e.data).bus
 }
+
+setTimeout(function () {
+  document.querySelector('.mapbox-info-toggle').addEventListener('click', function () {
+var info = document.querySelector('.map-info-container')
+  var credits = 'Chattanooga Rus Radar - by <a href="http://jden.us">jden</a> - <a href="https://github.com/jden/silly-little-bus-radar">source on github</a> - using the <a href="http://chab.us">chab.us api</a> - Map '
+  info.innerHTML = credits + info.innerHTML
+  }, true)
+  
+}, 1000)
 </script>
   </body>
 </html>
