@@ -128,7 +128,7 @@ api.addEventListener('add', function (e) {
 
   var bus = parseBus(e)
   console.log('add', bus)
-  if (ebus.route === 'U') { return; }
+  if (bus.route === 'U') { return; }
   
   bus.marker = L.rotatedMarker([bus.lat, bus.lon],
   {
