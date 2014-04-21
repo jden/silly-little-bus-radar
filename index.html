@@ -128,18 +128,18 @@ api.addEventListener('add', function (e) {
 
   var bus = parseBus(e)
   console.log('add', bus)
-  if (bus.route === 'U') { return; }
+  if (bus.properties.route === 'U') { return; }
   
-  bus.marker = L.rotatedMarker([bus.lat, bus.lon],
+  bus.marker = L.rotatedMarker([bus.geometry.coordinates[1], bus.geometry.coordinates[0]],
   {
     icon: L.icon({
       iconUrl: 'bus24@2x.png',
       iconSize: [36,36]
     }),
-    angle: headings[bus.heading]
+    angle: headings[bus.properties.heading]
   })
 
-  bus.marker.bindPopup('Route ' + bus.route + ' ' + bus.routeDirection + '<br/>to ' + bus.stop)
+  bus.marker.bindPopup('Route ' + bus.properties.route + ' ' + bus.properties.routeDirection + '<br/>to ' + bus.properties.stop)
 
   bus.marker.addTo(map)
 
@@ -156,15 +156,15 @@ api.addEventListener('add', function (e) {
 
 api.addEventListener('change', function (e) {
   var ebus = parseBus(e)
-  if (ebus.route === 'U') { return; }
+  if (ebus.properties.route === 'U') { return; }
 
   console.log('change', ebus)
   var bus = buses[ebus.id]
 
-  bus.marker.options.angle = headings[bus.heading]
-  bus.marker.setLatLng([ebus.lat,ebus.lon])
+  bus.marker.options.angle = headings[ebus.properties.heading]
+  bus.marker.setLatLng([ebus.geometry.coordinates[1], ebus.geometry.coordinates[0]])
 
-  bus.marker.bindPopup('Route ' + bus.route + ' ' + ebus.routeDirection + '<br/>to ' + ebus.stop)
+  bus.marker.bindPopup('Route ' + ebus.properties.route + ' ' + ebus.properties.routeDirection + '<br/>to ' + ebus.properties.stop)
 })
 
 api.addEventListener('remove', function (e) {
@@ -175,7 +175,7 @@ api.addEventListener('remove', function (e) {
 })
 
 function parseBus(e) {
-  return JSON.parse(e.data).bus
+  return JSON.parse(e.data)
 }
 
 setTimeout(function () {
