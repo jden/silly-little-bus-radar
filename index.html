@@ -167,6 +167,13 @@ api.addEventListener('change', function (e) {
   bus.marker.bindPopup('Route ' + bus.route + ' ' + ebus.routeDirection + '<br/>to ' + ebus.stop)
 })
 
+api.addEventListener('remove', function (e) {
+  var ebus = parseBus(e)
+  console.log('remove', ebus)
+  map.removeLayer(buses[ebus.id].marker)
+  delete buses[ebus.id]
+})
+
 function parseBus(e) {
   return JSON.parse(e.data).bus
 }
